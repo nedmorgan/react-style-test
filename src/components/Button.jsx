@@ -1,42 +1,116 @@
 import React, { Component } from 'react'
+import styled, { keyframes } from 'styled-components'
+import { bounce, hinge } from 'react-animations'
 
-export default class Button extends Component {
-  state = {
-    hover: false,
-    move: false
+const ButtonStyle = styled.button`
+  border-radius: 5px;
+  padding: 15px 25px;
+  font-size: 22px;
+  text-decoration: none;
+  /* margin: 20px; */
+  color: #fff;
+  position: relative;
+  background-color: #55acee;
+  box-shadow: 0px 5px 0px 0px #3C93D5;
+  &:hover{
+    background-color: #6FC6FF
   }
-  hoverEnter = () => {
-    // console.log('Your mouse entered')
-    this.setState({ hover: true });
+  &:active{
+    transform: translate(0px, 5px);
+    box-shadow: 0px 1px 0px 0px;
   }
-  hoverLeave = () => {
-    // console.log('Your mouse has left')
-    this.setState({ hover: false });
-  }
+`
 
-  moveButton = () => {
-    this.setState({ move: !this.state.move })
+const ErrorButton = styled(ButtonStyle)`
+  background-color: #e74c3c;
+  box-shadow: 0px 5px 0px 0px #CE3323;
+  &:hover{
+    background-color: #FF6656;
   }
+`
+
+const WarningButton = styled(ButtonStyle)`
+  background-color: yellow;
+  box-shadow: 0px 5px 0px 0px tomato;
+  &:hover{
+    background-color: orange;
+  }
+`
+
+const SuccessButton = styled(ButtonStyle)`
+  background-color: #2ecc71;
+  box-shadow: 0px 5px 0px 0px #15B358;
+  &:hover{
+    background-color: #48E68B;
+  }
+`
+const FlexContainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+`
+
+const rotate360 = keyframes`
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(360deg);
+	}
+`;
+
+const rotateBack360 = keyframes`
+	from {
+		transform: rotate(0deg);
+	}
+
+	to {
+		transform: rotate(-360deg);
+	}
+`;
+
+const bounceAnimation = keyframes`${bounce}`
+
+const BouncyDiv = styled.div`
+  animation: 1s ${bounceAnimation} infinite;
+`
+
+const hingeAnimation = keyframes`${hinge}`
+
+const HingeDiv = styled.div`
+  animation: 3s ${hingeAnimation} infinite;
+`
+
+const RotatingDiv = styled.div`
+  animation: ${rotate360} 2s infinite;
+`;
+
+const RotatingBackDiv = styled.div`
+  animation: ${rotateBack360} 5s infinite;
+`;
+
+class Button extends Component {
 
   render() {
-    const buttonStyles = {
-      borderRadius: "5px",
-      padding: "15px 25px",
-      fontSize: "22px",
-      textDecoration: "none",
-      margin: "20px",
-      color: "#fff",
-      position: "relative",
-      display: "inline-block",
-      backgroundColor: this.state.hover ? "#6FC6FF" : "#55acee",
-      boxShadow: this.state.move ? "0px 1px 0px 0px" : "0px 5px 0px 0px #3C93D5",
-      transform: this.state.move ? "translate(0px, 5px)" : null,
-    };
 
     return (
-      <a href="#" style={buttonStyles} onMouseEnter={this.hoverEnter} onMouseLeave={this.hoverLeave} onClick={this.moveButton} on>
-        Click Me
-      </a>
+      <FlexContainer>
+        <RotatingDiv>
+          <ButtonStyle>Click Me</ButtonStyle>
+        </RotatingDiv>
+        <RotatingBackDiv>
+          <ErrorButton>Error</ErrorButton>
+        </RotatingBackDiv>
+        <BouncyDiv>
+          <WarningButton>Warning Button</WarningButton>
+        </BouncyDiv>
+        <HingeDiv>
+          <SuccessButton>Success</SuccessButton>
+        </HingeDiv>
+      </FlexContainer>
     )
   }
 }
+
+export default Button
